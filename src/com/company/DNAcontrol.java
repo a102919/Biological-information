@@ -1,24 +1,28 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class DNAController {
+public class DNAcontrol {
+    private static DNAcontrol dnAcontrol;
+    private DNAcontrol() {}
+    public static DNAcontrol getInstance(){
+        if(dnAcontrol == null){
+            dnAcontrol = new DNAcontrol();
+        }
+        return dnAcontrol;
+    }
 
-    public Map<DNAenum,Integer> count(String file) throws IOException {
-        List<String> data = readData(file);
+    public Map<DNAenum,Integer> count(List<String> data) {
         List<Character> charDNA = toChar(data);
         Map<DNAenum,Integer> DNAmap = countDNA(charDNA);
         return DNAmap;
     }
 
-    public String toRNA(String file) throws IOException {
-        List<String> data = readData(file);
+    public String toRNA(List<String> data ) {
         String RNA = "";
         for (String d:data){
             RNA += d.replaceAll("T","U");
@@ -26,9 +30,8 @@ public class DNAController {
         return RNA;
     }
 
-    public String toScondDNA(String file) throws IOException {
+    public String toScondDNA(List<String> data) {
         String RNA = "";
-        List<String> data = readData(file);
         List<Character> charDNA= toChar(data);
         for (char c: charDNA){
             RNA = searchSecondDNA(c) + RNA;
@@ -53,17 +56,6 @@ public class DNAController {
                 break;
         }
         return DNA;
-    }
-
-    private List<String> readData(String file) throws IOException {
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-        List<String> data = new ArrayList();
-        while (br.ready()){
-            data.add(br.readLine());
-        }
-        fr.close();
-        return data;
     }
     private List<Character> toChar(List<String> data){
         List<Character> charData = new ArrayList<>();
