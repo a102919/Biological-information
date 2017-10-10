@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    private static String file = "C:\\Users\\q0663\\IdeaProjects\\Biological-information\\file\\rosalind_dna.txt";
+    private static String file = "C:\\Users\\Alan\\IdeaProjects\\Biological-information\\file\\rosalind_gc.txt";
 
     public static void main(String[] args) throws IOException {
         DNAAdapter controller = new DNAAdapter();
         //第一題 算DNA裡面 A C G T 的數量
+        /*
         Map<DNAenum,Integer>  DNAmap = controller.countDNAChar(file);
         for(Object key : DNAmap.keySet()){
             System.out.print(DNAmap.get(key)+" ");
@@ -22,8 +23,14 @@ public class Main {
         String secondDNA = controller.searchSecondDNA(file);
         System.out.print(secondDNA);
         System.out.println();
-
+        */
         //第四題
+        DNABean dnaBean =  controller.searchMorstCG(file);
+        if(dnaBean==null){
+            System.out.println("bean = null");
+        }
+        float GCCount = dnaBean.getGCCount();
+        System.out.println(dnaBean.getName()+" : "+GCCount+"%");
 
     }
 

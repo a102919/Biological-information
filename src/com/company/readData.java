@@ -32,11 +32,16 @@ public class readData {
             if(d!=null){
                 if(d.contains(">")){
                     key = d;
-                    dnaBean = new DNABeanBuilder().setKey(key).createDNABean();
+                    dnaBean = new DNABean(key);
                     map.put(key,dnaBean);
                 }else if(key != null){
                     if(map.containsKey(key)) {
-                        map.get(key).setDNA(d);
+                        try {
+                            map.get(key).setDNA(d);
+                        }catch (Exception e){
+                            System.out.println(e);
+                        }
+
                     }
                 }
             }
