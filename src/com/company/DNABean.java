@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class DNABean {
     private String name;
-    private String DNA;
-    private Map<DNAenum,Character> dnaMap= new HashMap<>();
+    private List<String> DNA;
+    private Map<DNAenum,Integer> dnaMap= new HashMap<>();
 
     public DNABean(String key) {
         this.name = key;
@@ -21,19 +21,19 @@ public class DNABean {
         this.name = name;
     }
 
-    public String getDNA() {
+    public List<String> getDNA() {
         return DNA;
     }
 
     public void setDNA(String DNA) {
-        this.DNA += DNA;
+        this.DNA.add(DNA);
     }
 
-    public Map<DNAenum, Character> getDnaMap() {
+    public Map<DNAenum, Integer> getDnaMap() {
         return dnaMap;
     }
 
-    public void setDnaMap(Map<DNAenum, Character> dnaMap) {
+    public void setDnaMap(Map<DNAenum, Integer> dnaMap) {
         this.dnaMap = dnaMap;
     }
 }

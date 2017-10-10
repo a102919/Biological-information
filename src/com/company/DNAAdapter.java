@@ -29,5 +29,14 @@ public class DNAAdapter {
         return secDNA;
     }
 
+    //第四題 算出一個DNA堆裡面最多 GC 比例的基因列
+    public void searchMorstCG(String file){
+        List<String> data = read.readFile(file);
+        Map<String,DNABean> DNAMap = read.makeDataMap(data);
+        for(String key:DNAMap.keySet()){
+            List<String> DNA = DNAMap.get(key).getDNA();
+            Map<DNAenum,Integer> dnaMap = DNAcontrol.getInstance().count(DNA);
 
+        }
+    }
 }
