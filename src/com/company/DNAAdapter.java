@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,5 +50,31 @@ public class DNAAdapter {
             }
         }
         return DNAMap.get(reternKey);
+    }
+
+    //第五題 找出DNA對裡面重合的對數
+    public List<String> searchMachDNA(String file){
+        List<String> DNALink = new ArrayList<>();
+        List<String> data = read.readFile(file);
+        Map<String,DNABean> DNAMap = read.makeDataMap(data);
+        for(String key:DNAMap.keySet()){
+            for(String key2:DNAMap.keySet()){
+                if(key==key2)
+                    break;
+                String DNA = DNAMap.get(key).getDNAString();
+                int lenght = DNA.length();
+                String checkDNA = "";
+                int maxMech = 0;
+                for(int i = 0;i<lenght;i++){
+                    checkDNA += DNA.charAt(i);
+                    if(!DNAMap.get(key2).getDNAString().contains(checkDNA))
+                        break;
+                    maxMech++;
+                }
+                if(maxMech>=3)
+                DNALink.add(key+" "+key2);
+            }
+        }
+        return DNALink;
     }
 }

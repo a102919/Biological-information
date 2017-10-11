@@ -26,6 +26,14 @@ public class DNABean {
         return DNA;
     }
 
+    public String getDNAString(){
+        String DNAString = "";
+        for(String d:DNA){
+            DNAString += d;
+        }
+        return DNAString;
+    }
+
     public void setDNA(String DNA) {
         this.DNA.add(DNA);
     }

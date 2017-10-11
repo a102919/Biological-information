@@ -23,7 +23,7 @@ public class Main {
         String secondDNA = controller.searchSecondDNA(file);
         System.out.print(secondDNA);
         System.out.println();
-        */
+
         //第四題
         DNABean dnaBean =  controller.searchMorstCG(file);
         if(dnaBean==null){
@@ -31,12 +31,11 @@ public class Main {
         }
         float GCCount = dnaBean.getGCCount();
         System.out.println(dnaBean.getName()+" : "+GCCount+"%");
-
+*/
+        //第五題
+        List<String> DNALink = controller.searchMachDNA(file);
+        for(String s:DNALink){
+            System.out.println(s);
+        }
     }
-
-
-
-
-
-
 }
