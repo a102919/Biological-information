@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DNAAdapter {
     private readData read;
@@ -52,7 +50,16 @@ public class DNAAdapter {
         return DNAMap.get(reternKey);
     }
 
-    //第五題 找出DNA對裡面重合的對數
+    //第五題 找出DNA裡面符合的位子
+    public List<Integer> searchDNASeat(String file){
+        List<String> data = read.readFile(file);
+        String dna = data.get(0);
+        String fragment = data.get(1);
+        List<Integer> seatList = DNAcontrol.getInstance().seachMachSeat(dna,fragment);
+        return seatList;
+    }
+
+    //第六題 找出DNA對裡面重合的對數
     public List<String> searchMachDNA(String file){
         List<String> DNALink = new ArrayList<>();
         List<String> data = read.readFile(file);
@@ -60,21 +67,108 @@ public class DNAAdapter {
         for(String key:DNAMap.keySet()){
             for(String key2:DNAMap.keySet()){
                 if(key==key2)
-                    break;
-                String DNA = DNAMap.get(key).getDNAString();
-                int lenght = DNA.length();
-                String checkDNA = "";
-                int maxMech = 0;
-                for(int i = 0;i<lenght;i++){
-                    checkDNA += DNA.charAt(i);
-                    if(!DNAMap.get(key2).getDNAString().contains(checkDNA))
-                        break;
-                    maxMech++;
+                    continue;
+                //System.out.println(key+" "+key2);
+                String DNA1 = DNAMap.get(key).getDNAString();
+                String DNA2 = DNAMap.get(key2).getDNAString();
+                int lenght = DNA1.length();
+                int lenght2 = DNA2.length();
+                char checkDNA ;
+                int maxMech = 3;
+                String compare1 = DNA1.substring(lenght-maxMech,lenght);
+                String compare2 = DNA2.substring(0,maxMech);
+                if(compare1.equals(compare2) ){
+                    DNALink.add(key+" "+key2);
                 }
-                if(maxMech>=3)
-                DNALink.add(key+" "+key2);
+
             }
         }
         return DNALink;
+    }
+
+    public String combinationDNA(String file){
+        List<String> DNALink = new ArrayList<>();
+        List<String> data = read.readFile(file);
+        Map<String,DNABean> DNAMap = read.makeDataMap(data);
+
+        //找出所有基因最多重複象
+        find2Short(DNAMap);
+        //找出最短向
+        String head = "";
+        head = theShortest(DNAMap, head);
+        LinkedList<String> dnaLink = new LinkedList();
+        Map<String,DNABean> newDNAMap = new HashMap<>();
+        newDNAMap.putAll(DNAMap);
+        for(String key:DNAMap.keySet()){
+            newDNAMap.remove(key);
+            find(newDNAMap,dnaLink,DNAMap.get(key));
+        }
+        int Short=100000000;
+        String dnaString = "";
+        for(String dna:dnaLink){
+            if(dna.length()<Short){
+                Short = dna.length();
+                dnaString = dna;
+            }
+        }
+        return dnaString;
+    }
+
+    private void find(Map<String,DNABean> DNAMap,LinkedList<String> dnaLink,DNABean head){
+        if(DNAMap.isEmpty()){
+            dnaLink.add(head.getAlldna());
+        }
+        DNABean nexthead;
+        Map<String,DNABean> makeDNAMap =new HashMap<>();
+        makeDNAMap.putAll(DNAMap);
+        for(String key:DNAMap.keySet()){
+            if(head.getDNAconn().containsKey(key)){
+                nexthead = makeDNAMap.get(key);
+                String alldna = head.getAlldna()+nexthead.getDNAString().substring(head.getDNAconn().get(key),nexthead.getDNAString().length());
+                nexthead.setAlldna(alldna);
+                head = DNAMap.get(key);
+                makeDNAMap.remove(key);
+                find(makeDNAMap,dnaLink,head);
+            }
+        }
+    }
+
+    private String theShortest(Map<String, DNABean> DNAMap, String head) {
+        int maxdna=0;
+        for(String key:DNAMap.keySet()){
+            Map<String,Integer> DNAconn = DNAMap.get(key).getDNAconn();
+            int max = 0;
+            for(String keycon:DNAconn.keySet()){
+                if(max<DNAconn.get(keycon)) {
+                    max = DNAconn.get(keycon);
+                }
+            }
+            if(max > maxdna){
+                maxdna = max;
+                head = key;
+            }
+        }
+        return head;
+    }
+
+    private void find2Short(Map<String, DNABean> DNAMap) {
+        for(String key:DNAMap.keySet()){
+            DNAMap.get(key).clearMap();
+            for(String key2:DNAMap.keySet()){
+                if(key==key2)
+                    continue;
+                String DNA1 = DNAMap.get(key).getDNAString();
+                String DNA2 = DNAMap.get(key2).getDNAString();
+                int lenght = DNA1.length();
+                List<Integer> seatList = DNAcontrol.getInstance().seachMachSeat(DNA2,DNA1.substring(lenght-1,lenght));
+                for(int i=seatList.size()-1;i>=0;i--){
+                    int ss = seatList.get(i);
+                    String dd = DNA2.substring(0, ss);
+                    if(DNA1.endsWith(dd)) {
+                        DNAMap.get(key).addDNAconn(key2,ss);
+                    }
+                }
+            }
+        }
     }
 }

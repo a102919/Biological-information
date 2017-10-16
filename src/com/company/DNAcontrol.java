@@ -1,10 +1,7 @@
 package com.company;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class DNAcontrol {
     private static DNAcontrol dnAcontrol;
@@ -101,5 +98,24 @@ public class DNAcontrol {
         for(DNAenum dna: DNAenum.values()) {
             DNAmap.put(dna,0);
         }
+    }
+
+    public List<Integer> seachMachSeat(String dna,String fragment){
+        List<Integer> seatList = new ArrayList<>();
+        int seat = 0,sentSeat = 0;
+        int dnaSize = dna.length();
+        while (true){
+            seat = dna.substring(sentSeat,dnaSize).indexOf(fragment)+1;
+            if(seat == 0){
+                break;
+            }
+            sentSeat += seat;
+            seatList.add(sentSeat);
+        }
+        return seatList;
+    }
+
+    public void searchShort(){
+
     }
 }

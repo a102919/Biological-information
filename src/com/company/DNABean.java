@@ -9,6 +9,8 @@ public class DNABean {
     private String name;
     private List<String> DNA = new ArrayList<>();
     private Map<DNAenum,Integer> dnaMap= new HashMap<>();
+    private Map<String,Integer> DNAconn = new HashMap<>() ;
+    private String alldna;
 
     public DNABean(String key) {
         this.name = key;
@@ -59,5 +61,26 @@ public class DNABean {
         }
 
         return ((float) GCCount*100/allDNA);
+    }
+
+    public Map<String, Integer> getDNAconn() {
+        return DNAconn;
+    }
+    public void addDNAconn(String dna, Integer count){
+        DNAconn.put(dna,count);
+    }
+
+    public void clearMap(){
+        DNAconn.clear();
+    }
+
+    public String getAlldna() {
+        if(alldna==null)
+            alldna = getDNAString();
+        return alldna;
+    }
+
+    public void setAlldna(String alldna) {
+        this.alldna = alldna;
     }
 }

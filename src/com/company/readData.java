@@ -31,7 +31,7 @@ public class readData {
         for(String d:data){
             if(d!=null){
                 if(d.contains(">")){
-                    key = d;
+                    key = d.substring(1,d.length());
                     dnaBean = new DNABean(key);
                     map.put(key,dnaBean);
                 }else if(key != null){
