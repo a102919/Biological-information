@@ -97,11 +97,12 @@ public class DNAAdapter {
         String head = "";
         head = theShortest(DNAMap, head);
         LinkedList<String> dnaLink = new LinkedList();
-        Map<String,DNABean> newDNAMap = new HashMap<>();
-        newDNAMap.putAll(DNAMap);
         for(String key:DNAMap.keySet()){
+            String alldna=DNAMap.get(key).getDNAString();
+            Map<String,DNABean> newDNAMap = new HashMap<>();
+            newDNAMap.putAll(DNAMap);
             newDNAMap.remove(key);
-            find(newDNAMap,dnaLink,DNAMap.get(key));
+            find(newDNAMap,dnaLink,DNAMap.get(key),alldna);
         }
         int Short=100000000;
         String dnaString = "";
@@ -114,23 +115,28 @@ public class DNAAdapter {
         return dnaString;
     }
 
-    private void find(Map<String,DNABean> DNAMap,LinkedList<String> dnaLink,DNABean head){
-        if(DNAMap.isEmpty()){
-            dnaLink.add(head.getAlldna());
-        }
-        DNABean nexthead;
-        Map<String,DNABean> makeDNAMap =new HashMap<>();
-        makeDNAMap.putAll(DNAMap);
-        for(String key:DNAMap.keySet()){
-            if(head.getDNAconn().containsKey(key)){
-                nexthead = makeDNAMap.get(key);
-                String alldna = head.getAlldna()+nexthead.getDNAString().substring(head.getDNAconn().get(key),nexthead.getDNAString().length());
-                nexthead.setAlldna(alldna);
-                head = DNAMap.get(key);
-                makeDNAMap.remove(key);
-                find(makeDNAMap,dnaLink,head);
+    private void find(Map<String,DNABean> DNAMap,LinkedList<String> dnaLink,DNABean head,String allthedna){
+        if(allthedna.length()>1000000000){
+        }else {
+            if(DNAMap.size()==1){
+                //DNAMap.clear();
+                dnaLink.add(allthedna);
+            }
+            DNABean nexthead;
+            Map<String,DNABean> makeDNAMap =new HashMap<>();
+            makeDNAMap.putAll(DNAMap);
+            for(String key:DNAMap.keySet()){
+                if(head.getDNAconn().containsKey(key)){
+                    String allthedna2 =allthedna;
+                    nexthead = makeDNAMap.get(key);
+                    allthedna2 += nexthead.getDNAString().substring(head.getDNAconn().get(key),nexthead.getDNAString().length());
+                    head = DNAMap.get(key);
+                    makeDNAMap.remove(key);
+                    find(makeDNAMap,dnaLink,head,allthedna2);
+                }
             }
         }
+
     }
 
     private String theShortest(Map<String, DNABean> DNAMap, String head) {

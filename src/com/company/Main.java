@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         DNAAdapter controller = new DNAAdapter();
         //第一題 算DNA裡面 A C G T 的數量
+        /*
         Map<DNAenum,Integer>  DNAmap = controller.countDNAChar(file);
         for(Object key : DNAmap.keySet()){
             System.out.print(DNAmap.get(key)+" ");
@@ -43,6 +44,7 @@ public class Main {
         for(String s:DNALink){
             System.out.println(s);
         }
+        */
         //未完成
         //第七題
         String conDNA = controller.combinationDNA(file);
