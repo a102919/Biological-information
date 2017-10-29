@@ -177,4 +177,73 @@ public class DNAAdapter {
             }
         }
     }
+
+    //第八題
+    public String changeProteinCode(String file){
+        String protein = "";
+        List<String> data = read.readFile(file);
+        List<String> threeData = new ArrayList<>();
+
+        for(String d:data){
+            threeData.addAll(DNAcontrol.getInstance().cutDNA(d));
+        }
+        for(String three:threeData){
+            if(geneticTable.change(three).equals("STOP")){
+                break;
+            }else {
+                protein += geneticTable.change(three);
+            }
+        }
+        return protein;
+    }
+
+    //第九題 ORF
+    public Set<String> searchAllProteinCode(String file){
+        List<String> data = read.readFile(file);
+        Map<String,DNABean> DNAMap = read.makeDataMap(data);
+        Set<String> output = new HashSet<>();
+
+        for(String key:DNAMap.keySet()){
+            List<String> allTheProteinCode = DNAMap.get(key).getAlldanCloud();
+
+            for(String input:allTheProteinCode){
+                List<String> threeData = new ArrayList<>();
+                threeData.addAll(DNAcontrol.getInstance().cutDNA(input));
+                boolean run = false;
+                String protein = "";
+                for(String three:threeData){
+                    String genetic = geneticTable.change(three);
+                    if(genetic != null){
+                        if(genetic.equals("M")){
+                            run = true;
+                        }
+                        if(run){
+//                            if(protein != "")
+//                            if(genetic.equals("M")){
+//                                run = false;
+//                                protein = "";
+//                            }
+                            if(geneticTable.change(three).equals("STOP")){
+                                int length = protein.length();
+                                List<Integer> seatList = DNAcontrol.getInstance().seachMachSeat(protein,"M");
+                                for(Integer seat:seatList){
+                                    output.add(protein.substring(seat-1,length));
+                                }
+
+                                protein = "";
+                                run = false;
+                                continue;
+                            }
+                            protein += geneticTable.change(three);
+
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        return output;
+    }
 }

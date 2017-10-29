@@ -26,6 +26,11 @@ public class DNAcontrol {
         }
         return RNA;
     }
+    public String toRNA(String data ) {
+        String RNA = "";
+        RNA = data.replaceAll("T","U");
+        return RNA;
+    }
 
     public String toScondDNA(List<String> data) {
         String RNA = "";
@@ -34,6 +39,15 @@ public class DNAcontrol {
             RNA = searchSecondDNA(c) + RNA;
         }
         return RNA;
+    }
+
+    public String rotate(String data){
+        int lenght = data.length();
+        String dna = "";
+        for(int i=0;i<lenght;i++){
+            dna = data.charAt(i)+dna;
+        }
+        return dna;
     }
 
     private char searchSecondDNA(char c) {
@@ -115,7 +129,13 @@ public class DNAcontrol {
         return seatList;
     }
 
-    public void searchShort(){
-
+    public List<String> cutDNA(String DNA){
+        List<String> threeList = new ArrayList<>();
+        int DNAlength = DNA.length();
+        DNAlength -= DNAlength%3;
+        for(int i=0;i<DNAlength;i+=3){
+            threeList.add(DNA.substring(i,i+3));
+        }
+        return threeList;
     }
 }

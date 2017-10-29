@@ -11,6 +11,7 @@ public class DNABean {
     private Map<DNAenum,Integer> dnaMap= new HashMap<>();
     private Map<String,Integer> DNAconn = new HashMap<>() ;
     private String alldna;
+    private int DNASize=0 ;
 
     public DNABean(String key) {
         this.name = key;
@@ -80,7 +81,29 @@ public class DNABean {
         return alldna;
     }
 
+    public int getDNASize() {
+        return this.getDNAString().length();
+    }
+
     public void setAlldna(String alldna) {
         this.alldna = alldna;
+    }
+
+    public String getRNA(){
+        return DNAcontrol.getInstance().toRNA(this.DNA);
+    }
+
+    public List<String> getAlldanCloud(){
+        List<String> AlldanCloud = new ArrayList<>();
+        AlldanCloud.add(this.getRNA());
+        AlldanCloud.add(this.getRNA().substring(1,getDNASize()-1));
+        AlldanCloud.add(this.getRNA().substring(2,getDNASize()-1));
+        String secondDNA = DNAcontrol.getInstance().toScondDNA(this.DNA);
+        String secondRNA = DNAcontrol.getInstance().toRNA(secondDNA);
+        //secondRNA = DNAcontrol.getInstance().rotate(secondRNA);
+        AlldanCloud.add(secondRNA);
+        AlldanCloud.add(secondRNA.substring(1,getDNASize()-1));
+        AlldanCloud.add(secondRNA.substring(2,getDNASize()-1));
+        return AlldanCloud;
     }
 }

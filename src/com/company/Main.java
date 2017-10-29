@@ -44,11 +44,20 @@ public class Main {
         for(String s:DNALink){
             System.out.println(s);
         }
-        */
+
         //未完成
         //第七題
         String conDNA = controller.combinationDNA(file);
         System.out.println(conDNA);
+*/
 
+        //第八題 PROT
+        String  Protein = controller.changeProteinCode(file);
+        System.out.println(Protein);
+
+        //第九題 ORF
+        Set<String> output = controller.searchAllProteinCode(file);
+        for (String out:output)
+        System.out.println(out);
     }
 }
